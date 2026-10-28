@@ -14,7 +14,8 @@ StudyPilot AI brings study planning, PDF-based learning, quiz practice, and acad
 - **Study Planner** — Organize study sessions and academic tasks.
 - **Authentication** — Access protected features and user-specific information.
 
-## ## 🛠️ Tech Stack
+
+## 🛠️ Tech Stack
 
 | Technology | Purpose |
 |---|---|
@@ -27,6 +28,7 @@ StudyPilot AI brings study planning, PDF-based learning, quiz practice, and acad
 | **Ollama** | Running large language models locally to power AI-based features |
 | **Node.js** | JavaScript runtime for server-side application execution |
 | **npm** | Managing project dependencies and running development scripts |
+
 ## 🤖 Local AI with Ollama
 
 StudyPilot AI uses **Ollama** to run large language models locally for AI-powered learning features, such as document-based chat and quiz generation.
@@ -48,7 +50,8 @@ StudyPilot AI uses **Ollama** to run large language models locally for AI-powere
 
 4. Ensure Ollama is running and configured in your application before using AI-powered features.
 
-**Note:** The model runs locally on your machine, so AI inference does not require a paid cloud AI API. Initial model downloads require an internet connection.
+**Note:** AI inference runs locally when the application uses the local Ollama model. Downloading the model initially requires an internet connection.
+
 ## 🏗️ Project Architecture
 
 ```text
@@ -70,9 +73,7 @@ StudyPilot AI
 └── Data Layer
     ├── Prisma ORM
     └── MySQL Database
-
 ```
-
 ## 🚀 Getting Started
 
 ### Prerequisites
