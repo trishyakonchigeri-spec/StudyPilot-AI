@@ -1,0 +1,1 @@
+-- This migration intentionally performs no database changes. 

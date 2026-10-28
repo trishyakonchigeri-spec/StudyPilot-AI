@@ -1,0 +1,2 @@
+-- Document table was already created by 20260802185135_add_document_model.
+-- This migration is intentionally empty.

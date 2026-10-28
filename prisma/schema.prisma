@@ -1,0 +1,155 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+
+  notes          Note[]
+  tasks          Task[]
+  exams          Exam[]
+  sessions       StudySession[]
+  quizResults    QuizResult[]
+  documents      Document[]
+  documentChunks DocumentChunk[]
+
+  passwordResetTokens PasswordResetToken[]
+}
+
+model PasswordResetToken {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
+  userId    Int
+  expiresAt DateTime
+  used       Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Note {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Task {
+  id          Int       @id @default(autoincrement())
+  title       String
+  description String?
+  dueDate     DateTime?
+  completed   Boolean   @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Exam {
+  id        Int      @id @default(autoincrement())
+  subject   String
+  examDate  DateTime
+  createdAt DateTime @default(now())
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model StudySession {
+  id Int @id @default(autoincrement())
+
+  subject   String
+  title     String
+  studyDate DateTime
+  startTime String
+  duration  Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Knowledge {
+  id        Int      @id @default(autoincrement())
+  topic     String
+  keywords  String   @db.Text
+  answer    String   @db.Text
+  createdAt DateTime @default(now())
+}
+
+model QuizResult {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  documentId Int?
+
+  documentName String?
+  subject      String
+  score        Int
+  total        Int
+  percentage   Float
+
+  questions       Json?
+  selectedAnswers Json?
+
+  createdAt DateTime @default(now())
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  document Document? @relation(fields: [documentId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([documentId])
+}
+
+model Document {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  fileName  String
+  content   String   @db.LongText
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  chunks      DocumentChunk[]
+  quizResults QuizResult[]
+
+  @@index([userId])
+}
+
+model DocumentChunk {
+  id         Int      @id @default(autoincrement())
+  documentId Int
+  userId     Int
+  fileName   String
+  content    String   @db.LongText
+  chunkIndex Int
+  embedding  Json?
+
+  createdAt DateTime @default(now())
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  document Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  @@unique([documentId, chunkIndex])
+  @@index([documentId])
+  @@index([userId])
+}
