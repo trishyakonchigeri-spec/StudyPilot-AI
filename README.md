@@ -27,7 +27,28 @@ StudyPilot AI brings study planning, PDF-based learning, quiz practice, and acad
 | **Ollama** | Running large language models locally to power AI-based features |
 | **Node.js** | JavaScript runtime for server-side application execution |
 | **npm** | Managing project dependencies and running development scripts |
+## 🤖 Local AI with Ollama
 
+StudyPilot AI uses **Ollama** to run large language models locally for AI-powered learning features, such as document-based chat and quiz generation.
+
+**Setup:**
+
+1. Install [Ollama](https://ollama.com/download).
+2. Download the Llama 3.2 model:
+
+   ```bash
+   ollama pull llama3.2
+   ```
+
+3. Start the model:
+
+   ```bash
+   ollama run llama3.2
+   ```
+
+4. Ensure Ollama is running and configured in your application before using AI-powered features.
+
+**Note:** The model runs locally on your machine, so AI inference does not require a paid cloud AI API. Initial model downloads require an internet connection.
 ## 🏗️ Project Architecture
 
 ```text
